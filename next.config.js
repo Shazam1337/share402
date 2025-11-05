@@ -18,6 +18,20 @@ const nextConfig = {
       'pino-pretty': false,
     };
     
+    // Ignore pino-pretty in externals
+    config.externals = config.externals || [];
+    if (Array.isArray(config.externals)) {
+      config.externals.push('pino-pretty');
+    } else {
+      config.externals = [config.externals, 'pino-pretty'];
+    }
+    
+    // Ignore warnings about pino-pretty
+    config.ignoreWarnings = [
+      ...(config.ignoreWarnings || []),
+      { module: /node_modules\/pino/ },
+    ];
+    
     return config;
   },
 }
